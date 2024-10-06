@@ -10,6 +10,7 @@ position_route = Blueprint("positions", __name__, url_prefix="/positions/")
 @position_route.post("/")
 def add_position():
     msg = ""
+    block = False
     with Session() as session:
         if request.method == "POST":
             name = request.form.get("name")
@@ -21,6 +22,6 @@ def add_position():
                 session.commit()
                 msg = "Нова посада успішно додана"
             else:
-                return redirect("https://http.cat/401")
+                block = True
 
-    return render_template("add_position.html", msg=msg)
+    return render_template("add_position.html", msg=msg, block=block)
